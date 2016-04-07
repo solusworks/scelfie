@@ -14,6 +14,7 @@ public class ScelfieClient extends JFrame {
 		setVisible(true);
 		
 	}
+	//Emma testing source tree
 	
 	void initializeVariables(){
 		
