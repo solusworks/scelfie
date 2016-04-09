@@ -8,49 +8,68 @@ public class ScelfieFrame extends JFrame implements Navigator {
 	private static final long serialVersionUID = 580583432395451286L;
 
 	{
-		setTitle("Trojan Office");
+		setTitle("SCelfie");
 		setSize(640,480);
 		setMinimumSize(new Dimension(640,480));
 		//setJMenuBar(new OfficeMenuBar());
-		//getContentPane().add(new MainMenu(this));
+		getContentPane().add(new LogInPanel());
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 	
+	public static void main(String[] args)
+	{
+		ScelfieFrame sf = new ScelfieFrame();
+		sf.setVisible(true);
+	}
+	
 	@Override
 	public void toLogIn() {
-		// TODO Auto-generated method stub
-		
+		getContentPane().removeAll();
+		getContentPane().add(new LogInPanel());
+		revalidate();
+		repaint();
 	}
 
 	@Override
 	public void toInstructions() {
 		// TODO Auto-generated method stub
-		
+		getContentPane().removeAll();
+		getContentPane().add(new InstructionsPanel());
+		revalidate();
+		repaint();
 	}
 
 	@Override
 	public void toSignUp() {
-		// TODO Auto-generated method stub
-		
+		getContentPane().removeAll();
+		getContentPane().add(new SignUpPanel());
+		revalidate();
+		repaint();
 	}
 
 	@Override
 	public void toHome() {
-		// TODO Auto-generated method stub
-		
+		getContentPane().removeAll();
+		getContentPane().add(new HomePanel());
+		revalidate();
+		repaint();
 	}
 
 	@Override
 	public void toEdit() {
-		// TODO Auto-generated method stub
-		
+		getContentPane().removeAll();
+		getContentPane().add(new EditPanel());
+		revalidate();
+		repaint();
 	}
 
 	@Override
 	public void toMyScelfies() {
-		// TODO Auto-generated method stub
+		getContentPane().removeAll();
 		
+		revalidate();
+		repaint();
 	}
 
 }
