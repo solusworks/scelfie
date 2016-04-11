@@ -1,9 +1,14 @@
 package frame;
 
 import java.awt.BorderLayout;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -30,16 +35,15 @@ public class LogInPanel extends JPanel {
 	private void initializeVariables()
 	{
 		usernameLabel = new JLabel("Username");
-		usernameField = new JTextField(40);
+		usernameField = new JTextField(15);
 		passwordLabel = new JLabel("Password");
-		passwordField = new JPasswordField(50);
+		passwordField = new JPasswordField(15);
 		logInButton = new JButton("Log in");
 		signUpButton = new JButton("Sign up");
-		guestButton = new JButton("Continue as guest");
+		guestButton = new JButton("Continue as a Guest");
 	}
 
 	private void createGUI() {
-		System.out.println("Creating GUI!!");
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		add(Box.createGlue());
 		
@@ -47,16 +51,49 @@ public class LogInPanel extends JPanel {
 		logSignButs.add(logInButton, BorderLayout.WEST);
 		logSignButs.add(signUpButton, BorderLayout.CENTER);
 		
+		JPanel usernamePanel = new JPanel();
+		usernamePanel.add(usernameLabel, BorderLayout.WEST);
+		usernamePanel.add(usernameField, BorderLayout.EAST);
+		
+		JPanel passwordPanel = new JPanel();
+		passwordPanel.add(passwordLabel, BorderLayout.WEST);
+		passwordPanel.add(passwordField, BorderLayout.EAST);
+		
 		JPanel vertStuffPanel = new JPanel();
 		vertStuffPanel.setLayout(new BoxLayout(vertStuffPanel, BoxLayout.Y_AXIS));
-		vertStuffPanel.add(usernameField);
-		vertStuffPanel.add(passwordField);
+		vertStuffPanel.add(usernamePanel);
+		vertStuffPanel.add(passwordPanel);
 		vertStuffPanel.add(logSignButs);
 		vertStuffPanel.add(guestButton);
 		
 		add(vertStuffPanel);
 		
 		add(Box.createGlue());
+		
+		BufferedImage logoImage;
+		
+		/*
+		 * format=new ImageIcon(imagedata);
+		  Image img = format.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+		  jLabel15.setIcon(format);
+		 */
+		try {
+			logoImage = ImageIO.read(new File("SCelfieLogo.png"));
+			JLabel logoLabel = new JLabel(new ImageIcon(logoImage));
+			add(logoLabel);
+			
+			/*
+			logoImage = ImageIO.read(new File("SCelfieLogo.png"));
+			ImageIcon format = new ImageIcon(logoImage);
+			Image img = format.getImage().getScaledInstance(200, 50, Image.SCALE_SMOOTH);
+			JLabel logoLabel = new JLabel();
+			logoLabel.setIcon((Icon) logoLabel);
+			add(logoLabel);*/
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 	private void addActionListeners() {

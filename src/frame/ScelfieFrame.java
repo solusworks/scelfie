@@ -4,6 +4,7 @@ import java.awt.Dimension;
 
 import javax.swing.JFrame;
 
+
 public class ScelfieFrame extends JFrame implements Navigator {
 	private static final long serialVersionUID = 580583432395451286L;
 
@@ -21,6 +22,7 @@ public class ScelfieFrame extends JFrame implements Navigator {
 	{
 		ScelfieFrame sf = new ScelfieFrame();
 		sf.setVisible(true);
+		//sf.setIconImage(new Image("SCelfieLogo.png"));
 	}
 	
 	@Override
