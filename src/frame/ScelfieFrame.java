@@ -13,7 +13,7 @@ public class ScelfieFrame extends JFrame implements Navigator {
 		setSize(640,480);
 		setMinimumSize(new Dimension(640,480));
 		//setJMenuBar(new OfficeMenuBar());
-		getContentPane().add(new LogInPanel());
+		getContentPane().add(new LogInPanel(this));
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
@@ -28,7 +28,7 @@ public class ScelfieFrame extends JFrame implements Navigator {
 	@Override
 	public void toLogIn() {
 		getContentPane().removeAll();
-		getContentPane().add(new LogInPanel());
+		getContentPane().add(new LogInPanel(this));
 		revalidate();
 		repaint();
 	}

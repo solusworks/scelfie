@@ -18,9 +18,13 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import networking.PHPReader;
+
 public class LogInPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
+	Navigator navigator;
+	
 	private JLabel usernameLabel;
 	private JTextField usernameField;
 	private JLabel passwordLabel;
@@ -29,10 +33,17 @@ public class LogInPanel extends JPanel {
 	private JButton signUpButton;
 	private JButton guestButton;
 	
+	private PHPReader phpReader;
+	
 	{
 		initializeVariables();
 		addActionListeners();
 		createGUI();
+	}
+	
+	public LogInPanel(Navigator inNav)
+	{
+		navigator = inNav;
 	}
 	
 	private void initializeVariables()
@@ -44,6 +55,8 @@ public class LogInPanel extends JPanel {
 		logInButton = new JButton("Log in");
 		signUpButton = new JButton("Sign up");
 		guestButton = new JButton("Continue as a Guest");
+		
+		phpReader = new PHPReader();
 	}
 
 	private void createGUI() {
@@ -102,12 +115,45 @@ public class LogInPanel extends JPanel {
 	private void addActionListeners() {
 		logInButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				attemptLogIn();
+			}
+		});
+		
+		signUpButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				attemptSignUp();
 			}
 			
 		});
 	}
+	
+	private void attemptSignUp()
+	{
+		String userText = usernameField.getText();
+		String passText = passwordField.getText();
+		
+		if(userText.length() == 0 || passText.length() == 0)
+		{
+			JOptionPane.showMessageDialog(this, "Username or password field blank", "Error", JOptionPane.WARNING_MESSAGE);
+		}
+		else
+		{
+			System.out.println("Attempting php sign up execute post");
+
+			String phpAnswer = phpReader.executePost(PHPReader.SIGNUP, userText, passText);
+			if(!phpAnswer.startsWith("T"))
+			{
+				System.out.println(phpAnswer);
+				JOptionPane.showMessageDialog(this, "Username or password invalid", "Error", JOptionPane.WARNING_MESSAGE);
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(this, "Sign up success!", "!", JOptionPane.PLAIN_MESSAGE);
+				navigator.toHome();
+			}
+		}
+	}
+
 	
 	private void attemptLogIn()
 	{
@@ -118,5 +164,21 @@ public class LogInPanel extends JPanel {
 		{
 			JOptionPane.showMessageDialog(this, "Username or password field blank", "Error", JOptionPane.WARNING_MESSAGE);
 		}
+		else
+		{
+			System.out.println("Attempting php log in execute post");
+			String phpAnswer = phpReader.executePost(PHPReader.LOGIN, userText, passText);
+			if(!phpAnswer.startsWith("T"))
+			{
+				System.out.println(phpAnswer);
+				JOptionPane.showMessageDialog(this, "Username or password invalid", "Error", JOptionPane.WARNING_MESSAGE);
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(this, "Log in success!", "!", JOptionPane.PLAIN_MESSAGE);
+				navigator.toHome();
+			}
+		}
+		
 	}
 }
