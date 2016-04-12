@@ -9,19 +9,21 @@ import java.net.URL;
 import java.net.URLEncoder;
 
 public class PHPReader {
-	
-	
+	public static final String SIGNUP = "http://www.non-solus.com/scelfie/signup.php";
+	public static final String LOGIN = "http://www.non-solus.com/scelfie/login.php";
 	
 	// This function can be used to attempt to login/signup.
 	// The function will return the String "True" if successful or "False" if not.
-	// Any other Strings that are returned will have to do with the connection to the server not working
+	// Any other Strings that are returned will have to do with the connection to the server not working.
 	public static String executePost(String targetURL, String username, String password) {
 
 		HttpURLConnection connection = null;
 
 		try {
-			// Create string to send POST request for
-			String data = URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode(username, "UTF-8") + 
+			// Create string to send POST request for username and password
+			String data = URLEncoder.encode("server_username", "UTF-8") + "=" + URLEncoder.encode("makerma1_csci201", "UTF-8") +
+					"&" + URLEncoder.encode("server_password", "UTF-8") + "=" + URLEncoder.encode("iloveUSC2016!", "UTF-8") +
+					"&" + URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode(username, "UTF-8") + 
 					"&" + URLEncoder.encode("password", "UTF-8") + "=" + URLEncoder.encode(password, "UTF-8");
 			
 			// Create connection
