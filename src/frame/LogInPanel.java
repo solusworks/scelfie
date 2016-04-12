@@ -1,6 +1,8 @@
 package frame;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -11,6 +13,7 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -97,6 +100,23 @@ public class LogInPanel extends JPanel {
 	}
 
 	private void addActionListeners() {
+		logInButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				attemptLogIn();
+			}
+			
+		});
+	}
+	
+	private void attemptLogIn()
+	{
+		String userText = usernameField.getText();
+		String passText = passwordField.getText();
 		
+		if(userText.length() == 0 || passText.length() == 0)
+		{
+			JOptionPane.showMessageDialog(this, "Username or password field blank", "Error", JOptionPane.WARNING_MESSAGE);
+		}
 	}
 }
