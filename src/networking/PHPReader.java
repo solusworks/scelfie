@@ -48,10 +48,11 @@ public class PHPReader {
 			BufferedReader rd = new BufferedReader(new InputStreamReader(is));
 			StringBuilder response = new StringBuilder(); // or StringBuffer if
 															// not Java 5+
-			String line;
-			while ((line = rd.readLine()) != null) {
+			String line = rd.readLine();
+			while (line != null) {
 				response.append(line);
-				response.append('\r');
+				line = rd.readLine();
+				if (line != null) response.append('\r');
 			}
 			rd.close();
 			return response.toString();
