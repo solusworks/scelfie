@@ -56,7 +56,7 @@ public class ScelfieFrame extends JFrame implements Navigator {
 	@Override
 	public void toHome() {
 		getContentPane().removeAll();
-		getContentPane().add(new HomePanel());
+		getContentPane().add(new HomePanel(this));
 		revalidate();
 		repaint();
 	}
