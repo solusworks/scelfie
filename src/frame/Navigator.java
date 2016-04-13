@@ -7,4 +7,8 @@ public interface Navigator {
 	public void toHome();
 	public void toEdit();
 	public void toMyScelfies();
+	public void setRegistered(boolean b);
+	public void setUsername(String username);
+	public String getUsername();
+	public Boolean getRegistered();
 }

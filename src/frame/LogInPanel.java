@@ -41,7 +41,7 @@ public class LogInPanel extends JPanel {
 		createGUI();
 	}
 	
-	public LogInPanel(Navigator inNav)
+	public LogInPanel(ScelfieFrame inNav)
 	{
 		navigator = inNav;
 	}
@@ -77,10 +77,19 @@ public class LogInPanel extends JPanel {
 		
 		JPanel vertStuffPanel = new JPanel();
 		vertStuffPanel.setLayout(new BoxLayout(vertStuffPanel, BoxLayout.Y_AXIS));
+		vertStuffPanel.add(Box.createVerticalGlue());
+		vertStuffPanel.add(Box.createVerticalGlue());
+		vertStuffPanel.add(Box.createVerticalGlue());
 		vertStuffPanel.add(usernamePanel);
 		vertStuffPanel.add(passwordPanel);
 		vertStuffPanel.add(logSignButs);
-		vertStuffPanel.add(guestButton);
+		JPanel temp = new JPanel();
+		temp.add(guestButton);
+		vertStuffPanel.add(temp);
+		vertStuffPanel.add(Box.createVerticalGlue());
+		vertStuffPanel.add(Box.createVerticalGlue());
+		vertStuffPanel.add(Box.createVerticalGlue());
+
 		
 		add(vertStuffPanel);
 		
@@ -123,14 +132,19 @@ public class LogInPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				attemptSignUp();
 			}
-			
+		});
+		
+		guestButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				guestSession();
+			}		
 		});
 	}
 	
 	private void attemptSignUp()
 	{
 		String userText = usernameField.getText();
-		String passText = passwordField.getText();
+		String passText = new String(passwordField.getPassword());
 		
 		if(userText.length() == 0 || passText.length() == 0)
 		{
@@ -149,16 +163,17 @@ public class LogInPanel extends JPanel {
 			else
 			{
 				JOptionPane.showMessageDialog(this, "Sign up success!", "!", JOptionPane.PLAIN_MESSAGE);
-				navigator.toHome();
+				navigator.setRegistered(true);
+				navigator.setUsername(userText);
+				navigator.toInstructions();
 			}
 		}
 	}
 
-	
 	private void attemptLogIn()
 	{
 		String userText = usernameField.getText();
-		String passText = passwordField.getText();
+		String passText = new String(passwordField.getPassword());
 		
 		if(userText.length() == 0 || passText.length() == 0)
 		{
@@ -176,9 +191,17 @@ public class LogInPanel extends JPanel {
 			else
 			{
 				JOptionPane.showMessageDialog(this, "Log in success!", "!", JOptionPane.PLAIN_MESSAGE);
+				navigator.setRegistered(true);
+				navigator.setUsername(userText);
 				navigator.toHome();
 			}
 		}
 		
+	}
+
+	private void guestSession()
+	{
+		navigator.setRegistered(false);
+		navigator.toInstructions();
 	}
 }
