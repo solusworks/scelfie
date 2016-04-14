@@ -24,7 +24,7 @@ public class PHPReader {
 
 		try {
 			String encryptedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
-			System.out.println("Password: " + encryptedPassword);
+			//System.out.println("Password: " + encryptedPassword);
 			// Create string to send POST request for username and password
 			String data = URLEncoder.encode("server_username", "UTF-8") + "=" + URLEncoder.encode("makerma1_csci201", "UTF-8") +
 					"&" + URLEncoder.encode("server_password", "UTF-8") + "=" + URLEncoder.encode("iloveUSC2016!", "UTF-8") +
@@ -121,16 +121,19 @@ public class PHPReader {
 			rd.close();
 			
 			String result = response.toString();
-			System.out.println(result);
-			System.out.println(password);
+			//System.out.println(result);
+			//System.out.println(password);
 			try {
 				if (BCrypt.checkpw(password, result)) {
-					return "True";
+					return "true";
 				} else {
 					return "Incorrect password";
 				}
 			} catch (IllegalArgumentException iae) {
-				return "Incorrect hash/password";
+				return "Incorrect hash format in database";
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "BCrypt error";
 			}
 
 
@@ -149,7 +152,7 @@ public class PHPReader {
 	}
 	
 
-	// IMPORTANT NOTE: this function is outdated now!!! Use signup or checkLogin functions instead
+	// IMPORTANT NOTE: this function is out-dated now!!! Use signup or login functions instead
 	//
 	//
 	// This function can be used to attempt to login/signup.
