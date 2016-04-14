@@ -154,8 +154,8 @@ public class LogInPanel extends JPanel {
 		{
 			System.out.println("Attempting php sign up execute post");
 
-			String phpAnswer = phpReader.executePost(PHPReader.SIGNUP, userText, passText);
-			if(!phpAnswer.startsWith("T"))
+			String phpAnswer = phpReader.signup(userText, passText);
+			if(!phpAnswer.startsWith("t"))
 			{
 				System.out.println(phpAnswer);
 				JOptionPane.showMessageDialog(this, "Username or password invalid", "Error", JOptionPane.WARNING_MESSAGE);
@@ -182,8 +182,8 @@ public class LogInPanel extends JPanel {
 		else
 		{
 			System.out.println("Attempting php log in execute post");
-			String phpAnswer = phpReader.executePost(PHPReader.LOGIN, userText, passText);
-			if(!phpAnswer.startsWith("T"))
+			String phpAnswer = phpReader.login(userText, passText);
+			if(!phpAnswer.startsWith("t"))
 			{
 				System.out.println(phpAnswer);
 				JOptionPane.showMessageDialog(this, "Username or password invalid", "Error", JOptionPane.WARNING_MESSAGE);
