@@ -14,21 +14,18 @@ public class HomePanel extends JPanel {
 	private JButton viewMyScelfiesButton;
 	private JButton viewCommunityAlbumButton;
 	
+	public HomePanel(ScelfieFrame inNav)
 	{
+		navigator = inNav;
 		initializeVariables();
 		addActionListeners();
 		createGUI();
 	}
-	
-	public HomePanel(ScelfieFrame inNav)
-	{
-		navigator = inNav;
-	}
 
 	private void initializeVariables() {
-		uploadPhotoButton = new JButton();
-		viewMyScelfiesButton = new JButton();
-		viewCommunityAlbumButton = new JButton();
+		uploadPhotoButton = new JButton("Upload Photo");
+		viewMyScelfiesButton = new JButton("My SCelfies");
+		viewCommunityAlbumButton = new JButton("Community Album");
 	}
 
 	private void addActionListeners() {
@@ -53,7 +50,11 @@ public class HomePanel extends JPanel {
 	}
 
 	private void createGUI() {
-		// TODO Auto-generated method stub
-		
+		add(uploadPhotoButton);
+		if(navigator.getRegistered())
+		{
+			add(viewMyScelfiesButton);
+		}
+		add(viewCommunityAlbumButton);
 	}
 }

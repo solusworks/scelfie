@@ -8,7 +8,7 @@ import javax.swing.JFrame;
 public class ScelfieFrame extends JFrame implements Navigator {
 	private static final long serialVersionUID = 580583432395451286L;
 	
-	private Boolean registeredUserSession;
+	public Boolean registeredUserSession;
 	private String username;
 	
 	{
@@ -19,6 +19,9 @@ public class ScelfieFrame extends JFrame implements Navigator {
 		getContentPane().add(new LogInPanel(this));
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		
+		registeredUserSession = false;
+		username = "";
 	}
 	
 	public static void main(String[] args)
@@ -89,7 +92,7 @@ public class ScelfieFrame extends JFrame implements Navigator {
 	
 	@Override
 	public void setRegistered(boolean b) {
-		registeredUserSession = b;	
+		registeredUserSession = b;
 	}
 
 	@Override
