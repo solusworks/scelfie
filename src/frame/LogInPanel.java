@@ -80,12 +80,16 @@ public class LogInPanel extends JPanel {
 		vertStuffPanel.add(Box.createVerticalGlue());
 		vertStuffPanel.add(Box.createVerticalGlue());
 		vertStuffPanel.add(Box.createVerticalGlue());
+		vertStuffPanel.add(Box.createVerticalGlue());
+		vertStuffPanel.add(Box.createVerticalGlue());
 		vertStuffPanel.add(usernamePanel);
 		vertStuffPanel.add(passwordPanel);
 		vertStuffPanel.add(logSignButs);
 		JPanel temp = new JPanel();
 		temp.add(guestButton);
 		vertStuffPanel.add(temp);
+		vertStuffPanel.add(Box.createVerticalGlue());
+		vertStuffPanel.add(Box.createVerticalGlue());
 		vertStuffPanel.add(Box.createVerticalGlue());
 		vertStuffPanel.add(Box.createVerticalGlue());
 		vertStuffPanel.add(Box.createVerticalGlue());

@@ -2,9 +2,15 @@ package frame;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JPanel;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class HomePanel extends JPanel {
 	private static final long serialVersionUID = -7364326372669653451L;
@@ -13,6 +19,8 @@ public class HomePanel extends JPanel {
 	private JButton uploadPhotoButton;
 	private JButton viewMyScelfiesButton;
 	private JButton viewCommunityAlbumButton;
+	
+	private JFileChooser fileChooser;
 	
 	public HomePanel(ScelfieFrame inNav)
 	{
@@ -26,12 +34,16 @@ public class HomePanel extends JPanel {
 		uploadPhotoButton = new JButton("Upload Photo");
 		viewMyScelfiesButton = new JButton("My SCelfies");
 		viewCommunityAlbumButton = new JButton("Community Album");
+		fileChooser = new JFileChooser("Upload photo...");
+		
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("Photos", "png");
+		fileChooser.setFileFilter(filter);
 	}
 
 	private void addActionListeners() {
 		uploadPhotoButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				
+				openFileChooser();
 			}
 			
 		});
@@ -56,5 +68,24 @@ public class HomePanel extends JPanel {
 			add(viewMyScelfiesButton);
 		}
 		add(viewCommunityAlbumButton);
+	}
+	
+	private void openFileChooser()
+	{
+		fileChooser.setDialogTitle("Upload photo...");
+		int returnVal = fileChooser.showOpenDialog(this);
+		
+		if(returnVal == JFileChooser.APPROVE_OPTION) {
+			File selected = fileChooser.getSelectedFile();
+			try {			
+				navigator.setImageFile(selected.getAbsolutePath());
+				BufferedImage image = ImageIO.read(selected);
+				navigator.setImage(image);
+				navigator.toEdit();
+			} catch (IOException e) {
+				e.printStackTrace();
+				
+			}	
+		}
 	}
 }

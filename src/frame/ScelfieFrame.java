@@ -1,6 +1,7 @@
 package frame;
 
 import java.awt.Dimension;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 
@@ -8,8 +9,11 @@ import javax.swing.JFrame;
 public class ScelfieFrame extends JFrame implements Navigator {
 	private static final long serialVersionUID = 580583432395451286L;
 	
-	public Boolean registeredUserSession;
+	private Boolean registeredUserSession;
 	private String username;
+	
+	private String imageFpath;
+	private BufferedImage image;
 	
 	{
 		setTitle("SCelfie");
@@ -67,7 +71,7 @@ public class ScelfieFrame extends JFrame implements Navigator {
 	@Override
 	public void toEdit() {
 		getContentPane().removeAll();
-		getContentPane().add(new EditPanel());
+		getContentPane().add(new EditPanel(this));
 		revalidate();
 		repaint();
 	}
@@ -76,6 +80,14 @@ public class ScelfieFrame extends JFrame implements Navigator {
 	public void toMyScelfies() {
 		getContentPane().removeAll();
 		
+		revalidate();
+		repaint();
+	}
+	
+	@Override
+	public void toCommunityAlbum() {
+		getContentPane().removeAll();
+		getContentPane().add(new CommunityAlbumPanel(this));
 		revalidate();
 		repaint();
 	}
@@ -99,4 +111,25 @@ public class ScelfieFrame extends JFrame implements Navigator {
 	public Boolean getRegistered() {
 		return registeredUserSession;
 	}
+
+	@Override
+	public String getImageFile() {
+		return imageFpath;
+	}
+
+	@Override
+	public void setImageFile(String filepath) {
+		imageFpath = filepath;
+	}
+
+	@Override
+	public BufferedImage getImage() {
+		return image;
+	}
+
+	@Override
+	public void setImage(BufferedImage image) {
+		this.image = image;
+	}
+
 }
