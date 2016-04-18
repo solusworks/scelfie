@@ -43,22 +43,6 @@ public class ScelfieFrame extends JFrame implements Navigator {
 		repaint();
 	}
 
-	@Override
-	public void toInstructions() {
-		// TODO Auto-generated method stub
-		getContentPane().removeAll();
-		getContentPane().add(new InstructionsPanel(this));
-		revalidate();
-		repaint();
-	}
-
-	@Override
-	public void toSignUp() {
-		getContentPane().removeAll();
-		getContentPane().add(new SignUpPanel());
-		revalidate();
-		repaint();
-	}
 
 	@Override
 	public void toHome() {
