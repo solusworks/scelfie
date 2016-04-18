@@ -1,6 +1,5 @@
 package frame;
 
-import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -50,7 +49,7 @@ public class MyScelfiesPanel extends JPanel {
 	
 	private void createGUI()
 	{
-		setLayout(new BoxLayout(overallPanel, BoxLayout.Y_AXIS));
+		overallPanel.setLayout(new BoxLayout(overallPanel, BoxLayout.Y_AXIS));
 		overallPanel.add(back);
 		
 		String [] files = {"testfiles/heart.png", "testfiles/star.png", "testfiles/btop.png"};
@@ -73,8 +72,8 @@ public class MyScelfiesPanel extends JPanel {
 		Image img = orig.getImage();
 		BufferedImage bi = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
 		Graphics g = bi.createGraphics();
-		g.drawImage(img, 0, 0, 100, 100, null, null);	
-		ImageIcon finish = new ImageIcon(bi.getSubimage(0, 0, 100, 100));
+		g.drawImage(img, 0, 0, 200, 200, null, null);	
+		ImageIcon finish = new ImageIcon(bi.getSubimage(0, 0, 200, 200));
 		label = new JLabel(finish);
 		return label;
 	}

@@ -101,24 +101,13 @@ public class LogInPanel extends JPanel {
 		
 		BufferedImage logoImage;
 		
-		/*
-		 * format=new ImageIcon(imagedata);
-		  Image img = format.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
-		  jLabel15.setIcon(format);
-		 */
+	
 		try {
 			logoImage = ImageIO.read(new File("SCelfieLogo.png"));
 			JLabel logoLabel = new JLabel(new ImageIcon(logoImage));
 			add(logoLabel);
 			
-			/*
-			logoImage = ImageIO.read(new File("SCelfieLogo.png"));
-			ImageIcon format = new ImageIcon(logoImage);
-			Image img = format.getImage().getScaledInstance(200, 50, Image.SCALE_SMOOTH);
-			JLabel logoLabel = new JLabel();
-			logoLabel.setIcon((Icon) logoLabel);
-			add(logoLabel);*/
-			
+		
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -156,12 +145,9 @@ public class LogInPanel extends JPanel {
 		}
 		else
 		{
-			System.out.println("Attempting php sign up execute post");
-
 			String phpAnswer = phpReader.signup(userText, passText);
 			if(!phpAnswer.startsWith("t"))
 			{
-				System.out.println(phpAnswer);
 				JOptionPane.showMessageDialog(this, "Username or password invalid", "Error", JOptionPane.WARNING_MESSAGE);
 			}
 			else
@@ -169,6 +155,7 @@ public class LogInPanel extends JPanel {
 				JOptionPane.showMessageDialog(this, "Sign up success!", "!", JOptionPane.PLAIN_MESSAGE);
 				navigator.setRegistered(true);
 				navigator.setUsername(userText);
+				attemptLogIn();
 			}
 		}
 	}
@@ -184,7 +171,6 @@ public class LogInPanel extends JPanel {
 		}
 		else
 		{
-			System.out.println("Attempting php log in execute post");
 			String phpAnswer = phpReader.login(userText, passText);
 			if(!phpAnswer.startsWith("t"))
 			{
