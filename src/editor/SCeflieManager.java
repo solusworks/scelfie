@@ -38,7 +38,7 @@ public class SCeflieManager {
 			rawImg = ImageIO.read(new File(filePath));
 
 			// Copy rawImage into editedImg for later edits
-			editedImg = cloneBufferedImageFrom(rawImg);
+			//editedImg = cloneBufferedImageFrom(rawImg);
 
 			// Process the input image once it's loaded
 			processedRawImg();
@@ -52,6 +52,9 @@ public class SCeflieManager {
 	void addStickerToImg(String filePath, FacialFeature feature) {
 		
 		Rect[] targetRect = null;
+		
+		// Use new image to add a new filter
+		editedImg = cloneBufferedImageFrom(rawImg);
 		
 		if(feature == FacialFeature.Eye)
 		{
