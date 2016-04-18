@@ -158,6 +158,9 @@ public class EditPanel extends JPanel {
 				JOptionPane.showMessageDialog(null, "STAR", "Error", JOptionPane.WARNING_MESSAGE);
 				//scelfieManager.addStickerToImg("testfiles/star.png",FacialFeature.Eye);
 				//picLabel.setIcon(scelfieManager.getEditedImg());
+				scelfieManager.addStickerToImg("testfiles/star.png", "Eye");
+				ImageIcon img = new ImageIcon(scelfieManager.getEditedImg());
+				picLabel.setIcon(img);
 			}
 		});
 		flowerFilter.addMouseListener(new MouseAdapter(){
@@ -169,6 +172,9 @@ public class EditPanel extends JPanel {
 				JOptionPane.showMessageDialog(null, "FLOWER", "Error", JOptionPane.WARNING_MESSAGE);
 				//scelfieManager.addStickerToImg("testfiles/flower.png",FacialFeature.Eye);
 				//picLabel.setIcon(scelfieManager.getEditedImg());
+				scelfieManager.addStickerToImg("testfiles/flower.png", "Eye");
+				ImageIcon img = new ImageIcon(scelfieManager.getEditedImg());
+				picLabel.setIcon(img);
 			}
 		});
 		kissFilter.addMouseListener(new MouseAdapter(){
@@ -180,6 +186,9 @@ public class EditPanel extends JPanel {
 				JOptionPane.showMessageDialog(null, "KISS", "Error", JOptionPane.WARNING_MESSAGE);			
 				//scelfieManager.addStickerToImg("testfiles/kiss.png",FacialFeature.Mouth);
 				//picLabel.setIcon(scelfieManager.getEditedImg());
+				scelfieManager.addStickerToImg("testfiles/kiss.png", "Mouth");
+				ImageIcon img = new ImageIcon(scelfieManager.getEditedImg());
+				picLabel.setIcon(img);
 			}
 		});
 	}
@@ -213,8 +222,8 @@ public class EditPanel extends JPanel {
 		//filterScroll.add(filter);
 		
 		//PIC
-		BufferedImage croppedImage = image.getSubimage(200, 200, 400, 300);		
-		picLabel = new JLabel(new ImageIcon(croppedImage));
+		//BufferedImage croppedImage = image.getSubimage(200, 200, 400, 300);		
+		picLabel = new JLabel(new ImageIcon(image));
 		JPanel imagePanel = new JPanel();
 		imagePanel.setSize(new Dimension(300,400));
 		imagePanel.add(picLabel);

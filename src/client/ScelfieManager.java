@@ -57,6 +57,7 @@ public class ScelfieManager {
 	public void addStickerToImg(String filePath, String feature) {
 		
 		Rect[] targetRect = null;
+		editedImg = cloneBufferedImageFrom(rawImg);
 		
 		if(feature.equals("Eye"))
 		{
