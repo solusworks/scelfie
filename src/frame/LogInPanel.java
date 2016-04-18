@@ -205,5 +205,6 @@ public class LogInPanel extends JPanel {
 	private void guestSession()
 	{
 		navigator.setRegistered(false);
+		navigator.toHome();
 	}
 }

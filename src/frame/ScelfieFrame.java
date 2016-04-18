@@ -63,7 +63,7 @@ public class ScelfieFrame extends JFrame implements Navigator {
 	@Override
 	public void toMyScelfies() {
 		getContentPane().removeAll();
-		
+		getContentPane().add(new MyScelfiesPanel(this));
 		revalidate();
 		repaint();
 	}

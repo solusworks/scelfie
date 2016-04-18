@@ -49,7 +49,7 @@ public class HomePanel extends JPanel {
 		});
 		viewMyScelfiesButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				
+				viewMy();
 			}
 			
 		});
@@ -87,5 +87,10 @@ public class HomePanel extends JPanel {
 				
 			}	
 		}
+	}
+	
+	private void viewMy()
+	{
+		navigator.toMyScelfies();
 	}
 }
