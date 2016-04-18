@@ -22,17 +22,21 @@ import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
 
 // enum for the whole package
-enum FacialFeature{Eye, Mouth};
+
+
+//enum FacialFeature{Eye, Mouth};
 
 public class ScelfieManager {
 
+	
+	
 	private BufferedImage rawImg; // Original image
 	private BufferedImage processedImg; // Original image with mark up to indicate facial features' positions
 	private BufferedImage editedImg; // Original image with filters overlayed
 	private Rect[] eyesRect;
 	private Rect[] mouthRect;
 	
-	void loadTestImage(String filePath) {
+	public void loadTestImage(String filePath) {
 		
 		try {
 
@@ -50,15 +54,15 @@ public class ScelfieManager {
 		}
 	}
 
-	void addStickerToImg(String filePath, FacialFeature feature) {
+	public void addStickerToImg(String filePath, String feature) {
 		
 		Rect[] targetRect = null;
 		
-		if(feature == FacialFeature.Eye)
+		if(feature.equals("Eye"))
 		{
 			targetRect = eyesRect;
 			
-		} else if(feature == FacialFeature.Mouth)
+		} else if(feature.equals("Mouth"))
 		{
 			targetRect = mouthRect;			
 		}

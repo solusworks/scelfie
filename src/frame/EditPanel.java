@@ -24,6 +24,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import client.ScelfieManager;
+
 public class EditPanel extends JPanel {
 	private static final long serialVersionUID = -5186980309061986267L;
 	
@@ -47,13 +49,15 @@ public class EditPanel extends JPanel {
 	private JFileChooser fileChooser;
 	
 	//SM HERE
-	//private ScelfieManager scelfieManager;
+	private ScelfieManager scelfieManager;
 	
 	//Boolean to keep track of whether the Scelfie has been saved in one of the three ways
 	private Boolean saved;
 	
 	//Boolean to keep track of whether there is a filter on the Scelfie
 	private Boolean filtered;
+	
+	//enum FacialFeature{Eye, Mouth};
 	
 	public EditPanel(ScelfieFrame inNav) {
 		// TODO Auto-generated constructor stub
@@ -89,8 +93,8 @@ public class EditPanel extends JPanel {
 		filtered = false;
 		
 		//SM HERE
-		//scelfieManager = new ScelfieManager();
-		//scelfieManager.loadTestImage(navigator.getImageFile());
+		scelfieManager = new ScelfieManager();
+		scelfieManager.loadTestImage(navigator.getImageFile());
 	}
 
 	private void addActionListeners()
@@ -140,8 +144,9 @@ public class EditPanel extends JPanel {
 					filtered = true;
 				}
 				JOptionPane.showMessageDialog(null, "HEART", "Error", JOptionPane.WARNING_MESSAGE);
-				//scelfieManager.addStickerToImg("testfiles/heart.png",FacialFeature.Eye);
-				//picLabel.setIcon(scelfieManager.getEditedImg());
+				scelfieManager.addStickerToImg("testfiles/heart.png", "Eye");
+				ImageIcon img = new ImageIcon(scelfieManager.getEditedImg());
+				picLabel.setIcon(img);
 			}
 		});
 		starFilter.addMouseListener(new MouseAdapter(){
