@@ -143,6 +143,14 @@ public class LogInPanel extends JPanel {
 		{
 			JOptionPane.showMessageDialog(this, "Username or password field blank", "Error", JOptionPane.WARNING_MESSAGE);
 		}
+		else if(!isASCII(userText) || !isASCII(passText))
+		{
+			JOptionPane.showMessageDialog(this, "Username or password contains ASCII", "Error", JOptionPane.WARNING_MESSAGE);
+		}
+		else if(userText.equals("communityalbum"))
+		{
+			JOptionPane.showMessageDialog(this, "Please choose a different username", "Error", JOptionPane.WARNING_MESSAGE);
+		}
 		else
 		{
 			String phpAnswer = phpReader.signup(userText, passText);
@@ -169,12 +177,15 @@ public class LogInPanel extends JPanel {
 		{
 			JOptionPane.showMessageDialog(this, "Username or password field blank", "Error", JOptionPane.WARNING_MESSAGE);
 		}
+		else if(!isASCII(userText) || !isASCII(passText))
+		{
+			JOptionPane.showMessageDialog(this, "Username or password contains ASCII, invalid", "Error", JOptionPane.WARNING_MESSAGE);
+		}
 		else
 		{
 			String phpAnswer = phpReader.login(userText, passText);
 			if(!phpAnswer.startsWith("t"))
 			{
-				System.out.println(phpAnswer);
 				JOptionPane.showMessageDialog(this, "Username or password invalid", "Error", JOptionPane.WARNING_MESSAGE);
 			}
 			else
@@ -192,5 +203,15 @@ public class LogInPanel extends JPanel {
 	{
 		navigator.setRegistered(false);
 		navigator.toHome();
+	}
+	
+	private Boolean isASCII(String str)
+	{
+		for (char c: str.toCharArray()){
+			if (((int)c)>127){
+				return false;
+			} 
+		}
+		return true;
 	}
 }

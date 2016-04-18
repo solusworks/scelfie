@@ -1,10 +1,25 @@
 package frame;
 
-import java.awt.Component;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 
-public class CommunityAlbumPanel extends Component {
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+public class CommunityAlbumPanel extends JPanel {
+	private static final long serialVersionUID = -15406281220192938L;
 
 	private Navigator navigator;
+	
+	private JPanel overallPanel;
+	private JButton back;
+	private JPanel scelfiesPanel;
 	
 	public CommunityAlbumPanel(ScelfieFrame inNav) {
 		navigator = inNav;
@@ -16,21 +31,49 @@ public class CommunityAlbumPanel extends Component {
 
 	
 	private void initializeVariables() {
-		// TODO Auto-generated method stub
-		
+		overallPanel = new JPanel();
+		back = new JButton("Back");
+		scelfiesPanel = new JPanel();
 	}
 	
 	private void addActionListeners() {
-		// TODO Auto-generated method stub
-		
+		back.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				navigator.toHome();
+			}
+			
+		});
 	}
 	
 	private void createGUI() {
-		// TODO Auto-generated method stub
+		overallPanel.setLayout(new BoxLayout(overallPanel, BoxLayout.Y_AXIS));
+		overallPanel.add(back);
 		
+		String [] files = {"testfiles/heart.png", "testfiles/star.png", "testfiles/btop.png"};
+		scelfiesPanel.setLayout(new BoxLayout(scelfiesPanel, BoxLayout.X_AXIS));
+		for(int i = 0; i < 3; i++)
+		{
+			JLabel add = createImageLabel(files[i]);
+			scelfiesPanel.add(add);
+		}
+		
+		overallPanel.add(scelfiesPanel);
+		
+		add(overallPanel);
 	}
 
-	
+	JLabel createImageLabel(String fname)
+	{
+		JLabel label;
+		ImageIcon orig = new ImageIcon(fname);
+		Image img = orig.getImage();
+		BufferedImage bi = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+		Graphics g = bi.createGraphics();
+		g.drawImage(img, 0, 0, 200, 200, null, null);	
+		ImageIcon finish = new ImageIcon(bi.getSubimage(0, 0, 200, 200));
+		label = new JLabel(finish);
+		return label;
+	}
 
 
 }

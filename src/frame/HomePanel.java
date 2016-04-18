@@ -55,7 +55,7 @@ public class HomePanel extends JPanel {
 		});
 		viewCommunityAlbumButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				
+				navigator.toCommunityAlbum();
 			}
 			
 		});

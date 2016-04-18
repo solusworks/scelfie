@@ -21,8 +21,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
+//import javax.swing.JScrollPane;
+//import javax.swing.JTextArea;
 
 import client.ScelfieManager;
 
@@ -44,11 +44,10 @@ public class EditPanel extends JPanel {
 	private JLabel starFilter;
 	private JLabel picLabel;
 	
-	private JScrollPane filterScroll;
+	//private JScrollPane filterScroll;
 	
 	private JFileChooser fileChooser;
 	
-	//SM HERE
 	private ScelfieManager scelfieManager;
 	
 	//Boolean to keep track of whether the Scelfie has been saved in one of the three ways
@@ -57,7 +56,6 @@ public class EditPanel extends JPanel {
 	//Boolean to keep track of whether there is a filter on the Scelfie
 	private Boolean filtered;
 	
-	//enum FacialFeature{Eye, Mouth};
 	
 	public EditPanel(ScelfieFrame inNav) {
 		// TODO Auto-generated constructor stub
@@ -75,7 +73,7 @@ public class EditPanel extends JPanel {
 		saveButton = new JButton("Save");
 		saveToMyScelfiesButton = new JButton("Save to My SCelfies");
 		uploadToCommunityButton = new JButton("Share with Community");
-		filterScroll = new JScrollPane(new JTextArea());
+		//filterScroll = new JScrollPane(new JTextArea());
 		doneButton = new JButton("Done");
 		
 		fileChooser = new JFileChooser();
@@ -194,15 +192,7 @@ public class EditPanel extends JPanel {
 	}
 
 	private void createGUI()
-	{
-		//DONE
-		//JPanel doneButtonPan = new JPanel();
-		//doneButtonPan.add(doneButton, BorderLayout.EAST);
-		//doneButtonPan.add(Box.createGlue());
-		//doneButtonPan.add(Box.createGlue());
-		//doneButtonPan.add(Box.createGlue());
-		//doneButtonPan.add(doneButton, FlowLayout.RIGHT);
-		
+	{	
 		//FILTER
 		
 		filterPanel.setLayout(new BoxLayout(filterPanel, BoxLayout.Y_AXIS));
