@@ -1,9 +1,14 @@
 package networking;
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -11,6 +16,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+
+import javax.imageio.ImageIO;
 
 public class PHPReader {
 	// These two String variables are outdated/deprecated
@@ -20,7 +27,7 @@ public class PHPReader {
 	
 	private static final String SIGNUP_HASH = "http://www.non-solus.com/scelfie/signup_hash.php";
 	private static final String LOGIN_HASH = "http://www.non-solus.com/scelfie/login_hash.php";
-	private static final String UPLOAD = "http://www.non-solus.com/scelfie/upload_final.php";
+	private static final String UPLOAD = "http://www.non-solus.com/scelfie/upload.php";
 	private static final String IMAGE_LIST = "";
 	
 	
@@ -159,21 +166,6 @@ public class PHPReader {
 
 		}
 	}
-	/*
-	public void uploadImage(String imagePath, String username) {
-		try {
-			HttpURLConnection conn = (HttpURLConnection) new URL(UPLOAD + "?filename=" + username + "/" + imagePath).openConnection();
-			conn.setDoOutput(true);
-			conn.setRequestMethod("POST");
-			OutputStream os = conn.getOutputStream();
-			BufferedInputStream bis = new BufferedInputStream(new FileInputStream(imagePath));
-			
-			for (int i = 0; i < )
-		} catch (Exception e) {
-			System.out.println("Failed to establish connection!");
-		}
-	}
-	*/
 	
 	private static String getBasename(String imagePath) {
 		String result = "";
@@ -186,12 +178,132 @@ public class PHPReader {
 		return result;
 	}
 	
+	private static byte[] imageToBytes(BufferedImage image) {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		try {
+			ImageIO.write(image, "png", baos);
+		} catch (IOException ioe) {
+			System.out.println("Error converting to bytes");
+		}
+		return baos.toByteArray();
+	}
 	
+	// Given a BufferedImage, upload it to the server. The name of the file on the server
+	// is required and is therefore a parameter for this function. Make sure to add file extensions
+	// (e.g. ".png" or ".jpg") to imageName as well. Finally, the username is required to determine
+	// which folder the image will be uploaded to. Function returns true if it worked and false if otherwise.
+	public static boolean uploadImage(BufferedImage image, String imageName, String username) {
+		boolean result = false;
+		String fullPath = username + "/" + imageName;
+		
+		//CrLf: carriage return
+		final String CrLf = "\r\n";
+		
+        URLConnection conn = null;
+        OutputStream os = null;
+        InputStream is = null;
+
+        try {
+            //URL url = new URL("http://localhost/test/post.php");
+        	URL url = new URL(UPLOAD + "?username=" + username);
+            //System.out.println("url:" + url);
+            conn = url.openConnection();
+            conn.setDoOutput(true);
+
+            //String postData = "";
+            byte[] imgData = imageToBytes(image);
+
+            String message1 = "";
+            message1 += "-----------------------------4664151417711" + CrLf;
+            
+            message1 += "Content-Disposition: form-data; name=\"uploadedfile\"; filename=\"" + imageName
+                           + CrLf;
+            
+            message1 += "Content-Type: image/png" + CrLf;
+            message1 += CrLf;
+
+            // the image is sent between the messages in the multipart message.
+
+            String message2 = "";
+            message2 += CrLf + "-----------------------------4664151417711--"
+                    + CrLf;
+
+            conn.setRequestProperty("Content-Type",
+                    "multipart/form-data; boundary=---------------------------4664151417711");
+            // might not need to specify the content-length when sending chunked
+            // data.
+            conn.setRequestProperty("Content-Length", String.valueOf((message1
+                    .length() + message2.length() + imgData.length)));
+
+            //System.out.println("open os");
+            os = conn.getOutputStream();
+
+            //System.out.println(message1);
+            os.write(message1.getBytes());
+
+            // SEND THE IMAGE
+            int index = 0;
+            int size = 1024;
+            do {
+                //System.out.println("write:" + index);
+                if ((index + size) > imgData.length) {
+                    size = imgData.length - index;
+                }
+                os.write(imgData, index, size);
+                index += size;
+            } while (index < imgData.length);
+            //System.out.println("written:" + index);
+
+            //System.out.println(message2);
+            os.write(message2.getBytes());
+            os.flush();
+
+            //System.out.println("open is");
+            is = conn.getInputStream();
+
+            char buff = 512;
+            int len;
+            byte[] data = new byte[buff];
+            do {
+                //System.out.println("READ");
+                len = is.read(data);
+
+                if (len > 0) {
+                    //System.out.println(new String(data, 0, len));
+                    result = true;
+                }
+            } while (len > 0);
+
+            //System.out.println("DONE");
+        } catch (Exception e) {
+        	return result;
+        	//System.out.println("File not found");
+            //e.printStackTrace();
+        } finally {
+            //System.out.println("Close connection");
+            try {
+                os.close();
+            } catch (Exception e) {
+            }
+            try {
+                is.close();
+            } catch (Exception e) {
+            }
+            try {
+
+            } catch (Exception e) {
+            }
+        }
+        return result;
+    }
+	
+	// Returns true if file upload successful, false if not (boolean types)
 	// This method should only be used after a user is "logged in".
 	// In order to use this function, the imagePath must be provided.
 	// This is the path to the image that a user wants to upload on their local machine.
 	// The username variable should be self explanatory.
-	public static void uploadImage(String imagePath, String username) {
+	public static boolean uploadImage(String imagePath, String username) {
+			boolean result = false;
 			String basename = getBasename(imagePath);
 			String fullPath = username + "/" + basename;
 			
@@ -204,8 +316,8 @@ public class PHPReader {
 	
 	        try {
 	            //URL url = new URL("http://localhost/test/post.php");
-	        	URL url = new URL("http://www.non-solus.com/scelfie/uploadV2.php?username=" + username);
-	            System.out.println("url:" + url);
+	        	URL url = new URL(UPLOAD + "?username=" + username);
+	            //System.out.println("url:" + url);
 	            conn = url.openConnection();
 	            conn.setDoOutput(true);
 	
@@ -237,49 +349,52 @@ public class PHPReader {
 	            conn.setRequestProperty("Content-Length", String.valueOf((message1
 	                    .length() + message2.length() + imgData.length)));
 	
-	            System.out.println("open os");
+	            //System.out.println("open os");
 	            os = conn.getOutputStream();
 	
-	            System.out.println(message1);
+	            //System.out.println(message1);
 	            os.write(message1.getBytes());
 	
 	            // SEND THE IMAGE
 	            int index = 0;
 	            int size = 1024;
 	            do {
-	                System.out.println("write:" + index);
+	                //System.out.println("write:" + index);
 	                if ((index + size) > imgData.length) {
 	                    size = imgData.length - index;
 	                }
 	                os.write(imgData, index, size);
 	                index += size;
 	            } while (index < imgData.length);
-	            System.out.println("written:" + index);
+	            //System.out.println("written:" + index);
 	
-	            System.out.println(message2);
+	            //System.out.println(message2);
 	            os.write(message2.getBytes());
 	            os.flush();
 	
-	            System.out.println("open is");
+	            //System.out.println("open is");
 	            is = conn.getInputStream();
 	
 	            char buff = 512;
 	            int len;
 	            byte[] data = new byte[buff];
 	            do {
-	                System.out.println("READ");
+	                //System.out.println("READ");
 	                len = is.read(data);
 	
 	                if (len > 0) {
-	                    System.out.println(new String(data, 0, len));
+	                    //System.out.println(new String(data, 0, len));
+	                    result = true;
 	                }
 	            } while (len > 0);
 	
-	            System.out.println("DONE");
+	            //System.out.println("DONE");
 	        } catch (Exception e) {
-	            e.printStackTrace();
+	        	return result;
+	        	//System.out.println("File not found");
+	            //e.printStackTrace();
 	        } finally {
-	            System.out.println("Close connection");
+	            //System.out.println("Close connection");
 	            try {
 	                os.close();
 	            } catch (Exception e) {
@@ -293,6 +408,7 @@ public class PHPReader {
 	            } catch (Exception e) {
 	            }
 	        }
+	        return result;
 	    }
 	
 	public static String getImageList() {
