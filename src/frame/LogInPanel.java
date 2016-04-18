@@ -169,7 +169,6 @@ public class LogInPanel extends JPanel {
 				JOptionPane.showMessageDialog(this, "Sign up success!", "!", JOptionPane.PLAIN_MESSAGE);
 				navigator.setRegistered(true);
 				navigator.setUsername(userText);
-				navigator.toInstructions();
 			}
 		}
 	}
@@ -206,6 +205,5 @@ public class LogInPanel extends JPanel {
 	private void guestSession()
 	{
 		navigator.setRegistered(false);
-		navigator.toInstructions();
 	}
 }
