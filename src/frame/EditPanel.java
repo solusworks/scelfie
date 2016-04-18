@@ -40,10 +40,14 @@ public class EditPanel extends JPanel {
 	private JLabel flowerFilter;
 	private JLabel kissFilter;
 	private JLabel starFilter;
+	private JLabel picLabel;
 	
 	private JScrollPane filterScroll;
 	
 	private JFileChooser fileChooser;
+	
+	//SM HERE
+	//private ScelfieManager scelfieManager;
 	
 	//Boolean to keep track of whether the Scelfie has been saved in one of the three ways
 	private Boolean saved;
@@ -83,6 +87,10 @@ public class EditPanel extends JPanel {
 		
 		saved = false;
 		filtered = false;
+		
+		//SM HERE
+		//scelfieManager = new ScelfieManager();
+		//scelfieManager.loadTestImage(navigator.getImageFile());
 	}
 
 	private void addActionListeners()
@@ -127,16 +135,48 @@ public class EditPanel extends JPanel {
 		
 		heartFilter.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
-				if(filtered)
+				if(!filtered)
 				{
-					filtered = false;
-				} else {
 					filtered = true;
 				}
-				JOptionPane.showMessageDialog(null, "Username or password field blank", "Error", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(null, "HEART", "Error", JOptionPane.WARNING_MESSAGE);
+				//scelfieManager.addStickerToImg("testfiles/heart.png",FacialFeature.Eye);
+				//picLabel.setIcon(scelfieManager.getEditedImg());
 			}
 		});
-		
+		starFilter.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent e) {
+				if(!filtered)
+				{
+					filtered = true;
+				}
+				JOptionPane.showMessageDialog(null, "STAR", "Error", JOptionPane.WARNING_MESSAGE);
+				//scelfieManager.addStickerToImg("testfiles/star.png",FacialFeature.Eye);
+				//picLabel.setIcon(scelfieManager.getEditedImg());
+			}
+		});
+		flowerFilter.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent e) {
+				if(!filtered)
+				{
+					filtered = true;
+				}
+				JOptionPane.showMessageDialog(null, "FLOWER", "Error", JOptionPane.WARNING_MESSAGE);
+				//scelfieManager.addStickerToImg("testfiles/flower.png",FacialFeature.Eye);
+				//picLabel.setIcon(scelfieManager.getEditedImg());
+			}
+		});
+		kissFilter.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent e) {
+				if(!filtered)
+				{
+					filtered = true;
+				}
+				JOptionPane.showMessageDialog(null, "KISS", "Error", JOptionPane.WARNING_MESSAGE);			
+				//scelfieManager.addStickerToImg("testfiles/kiss.png",FacialFeature.Mouth);
+				//picLabel.setIcon(scelfieManager.getEditedImg());
+			}
+		});
 	}
 
 	private void createGUI()
@@ -169,7 +209,7 @@ public class EditPanel extends JPanel {
 		
 		//PIC
 		BufferedImage croppedImage = image.getSubimage(200, 200, 400, 300);		
-		JLabel picLabel = new JLabel(new ImageIcon(croppedImage));
+		picLabel = new JLabel(new ImageIcon(croppedImage));
 		JPanel imagePanel = new JPanel();
 		imagePanel.setSize(new Dimension(300,400));
 		imagePanel.add(picLabel);
