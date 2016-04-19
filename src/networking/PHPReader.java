@@ -2,8 +2,11 @@ package networking;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
+import java.awt.image.WritableRaster;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -16,19 +19,25 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
+
+import org.apache.commons.io.IOUtils;
 
 public class PHPReader {
 	// These two String variables are outdated/deprecated
 	public static final String SIGNUP = "http://www.non-solus.com/scelfie/signup.php";
 	public static final String LOGIN = "http://www.non-solus.com/scelfie/login.php";
-	public static final String ERICKTEST = "http://www.non-solus.com/scelfie/ericktest.php";
+	//public static final String ERICKTEST = "http://www.non-solus.com/scelfie/ericktest.php";
 	
 	private static final String SIGNUP_HASH = "http://www.non-solus.com/scelfie/signup_hash.php";
 	private static final String LOGIN_HASH = "http://www.non-solus.com/scelfie/login_hash.php";
 	private static final String UPLOAD = "http://www.non-solus.com/scelfie/upload.php";
-	private static final String IMAGE_LIST = "";
+	private static final String DOWNLOAD = "http://www.non-solus.com/scelfie/download.php";
+	private static final String DOWNLOADV2 = "http://www.non-solus.com/scelfie/download_old.php";
+	private static final String IMAGE_LIST = "http://www.non-solus.com/scelfie/imagelist.php";
 	
 	
 	// Given a username and password, the password is first encrypted with BCrypt.
@@ -178,7 +187,20 @@ public class PHPReader {
 		return result;
 	}
 	
+	private static String getImageType(String imageName) {
+		String result = "";
+		int dotIndex = imageName.lastIndexOf('.');
+		for (int i = 0; i < imageName.length(); i++) {
+			if (i > dotIndex) {
+				result += imageName.charAt(i);
+			}
+		}
+		return result;
+	}
+	
 	private static byte[] imageToBytes(BufferedImage image) {
+		// Can't handle cases where images are not .png files
+		
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		try {
 			ImageIO.write(image, "png", baos);
@@ -186,6 +208,13 @@ public class PHPReader {
 			System.out.println("Error converting to bytes");
 		}
 		return baos.toByteArray();
+		
+		// Huge gain in file size. Not very practical.
+		/*
+		WritableRaster raster = image.getRaster();
+		DataBufferByte data = (DataBufferByte) raster.getDataBuffer();
+		return data.getData();
+		*/
 	}
 	
 	// Given a BufferedImage, upload it to the server. The name of the file on the server
@@ -220,6 +249,7 @@ public class PHPReader {
                            + CrLf;
             
             message1 += "Content-Type: image/png" + CrLf;
+            //System.out.println(getImageType(imageName));
             message1 += CrLf;
 
             // the image is sent between the messages in the multipart message.
@@ -306,6 +336,7 @@ public class PHPReader {
 			boolean result = false;
 			String basename = getBasename(imagePath);
 			String fullPath = username + "/" + basename;
+			System.out.println(basename);
 			
 			//CrLf: carriage return
 			final String CrLf = "\r\n";
@@ -333,7 +364,7 @@ public class PHPReader {
 	            message1 += "Content-Disposition: form-data; name=\"uploadedfile\"; filename=\"" + imagePath
 	                           + CrLf;
 	            
-	            message1 += "Content-Type: image/png" + CrLf;
+	            message1 += "Content-Type: image/" + getImageType(basename) + CrLf;
 	            message1 += CrLf;
 	
 	            // the image is sent between the messages in the multipart message.
@@ -381,7 +412,6 @@ public class PHPReader {
 	            do {
 	                //System.out.println("READ");
 	                len = is.read(data);
-	
 	                if (len > 0) {
 	                    //System.out.println(new String(data, 0, len));
 	                    result = true;
@@ -411,15 +441,147 @@ public class PHPReader {
 	        return result;
 	    }
 	
-	public static String getImageList() {
-		
-		String list = "";
+	public static List<ImageURL> getImageList(String username) {
+		List<ImageURL> list = new ArrayList<ImageURL>();
+		HttpURLConnection connection = null;
+
+		try {
+			String data = URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode(username, "UTF-8");
+			
+			// Create connection
+			URL url = new URL(IMAGE_LIST);
+			connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("POST");
+			connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+
+			connection.setRequestProperty("Content-Length", Integer.toString(data.getBytes().length));
+			connection.setRequestProperty("Content-Language", "en-US");
+
+			connection.setUseCaches(false);
+			connection.setDoOutput(true);
+
+			// Send request
+			DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
+			wr.writeBytes(data);
+			wr.close();
+
+			InputStream is = connection.getInputStream();
+			BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+			StringBuilder response = new StringBuilder();
+			
+			String line = rd.readLine();
+			while (line != null) {
+				//System.out.println(line);
+				if (line != "") {
+					list.add(new ImageURL(username, line));
+				}
+				line = rd.readLine();
+			}
+			
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			return null;
+
+		} finally {
+
+			if (connection != null) {
+				connection.disconnect();
+			}
+
+		}
+		/*
+		System.out.println(list.size());
+		for (int i = 0; i < list.size(); i++) {
+			System.out.println(list.get(i).getImageName());
+		}
+		*/
 		return list;
 	}
 	
-	public static String downloadImage(String imageName) {
-		
-		return "";
+	// Given a username and the filename of the file a user wants to open,
+	// the function will return a URL to the file which can be turned into an image.
+	public static URL downloadImage(String username, String filename) {
+		HttpURLConnection connection = null;
+
+		try {
+			String data = URLEncoder.encode("path", "UTF-8") + "=" + URLEncoder.encode(username+"/"+filename, "UTF-8");
+			
+			// Create connection
+			URL url = new URL(DOWNLOAD);
+			connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("POST");
+			connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+
+			connection.setRequestProperty("Content-Length", Integer.toString(data.getBytes().length));
+			connection.setRequestProperty("Content-Language", "en-US");
+
+			connection.setUseCaches(false);
+			connection.setDoOutput(true);
+
+			// Send request
+			DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
+			wr.writeBytes(data);
+			wr.close();
+
+			InputStream is = connection.getInputStream();
+			BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+			StringBuilder response = new StringBuilder();
+			
+			String line = rd.readLine();
+			while (line != null) {
+				response.append(line);
+				line = rd.readLine();
+				//if (line != null) response.append('\n');
+			}
+			//System.out.println("Blah");
+			//System.out.print(response.toString());
+			URL imageURL = new URL(response.toString());
+			return imageURL;
+			
+			// Get Response
+			/*
+			InputStream is = connection.getInputStream();
+			byte[] bytes = IOUtils.toByteArray(is);
+			System.out.println("Length: " + bytes.length);
+
+			InputStream byteStream = new ByteArrayInputStream(bytes);
+			BufferedImage result = ImageIO.read(byteStream);
+			if (result == null) System.out.println("IT'S NULL");
+			*/
+			
+			/*
+			InputStream is = connection.getInputStream();
+			BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+			String response = ""; // or StringBuffer if
+															// not Java 5+
+			String line = rd.readLine();
+			while (line != null) {
+				response += (line);
+				line = rd.readLine();
+				if (line != null) response += ('\r');
+			}
+			//System.out.println(response);
+			byte[] bytes = response.getBytes();
+			InputStream byteStream = new ByteArrayInputStream(bytes);
+			BufferedImage result = ImageIO.read(byteStream);
+			if (result == null) System.out.println("IT'S NULL");
+			return result;
+			*/
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			return null;
+
+		} finally {
+
+			if (connection != null) {
+				connection.disconnect();
+			}
+			
+
+		}
 	}
 	
 	
