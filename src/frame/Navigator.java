@@ -16,4 +16,6 @@ public interface Navigator {
 	public void setImageFile(String filepath);
 	public BufferedImage getImage();
 	public void setImage(BufferedImage image);
+	public BufferedImage getEdited();
+	public void setEdited(BufferedImage image);
 }

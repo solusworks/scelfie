@@ -24,8 +24,6 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
-import org.apache.commons.io.IOUtils;
-
 public class PHPReader {
 	// These two String variables are outdated/deprecated
 	public static final String SIGNUP = "http://www.non-solus.com/scelfie/signup.php";

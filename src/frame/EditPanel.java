@@ -9,6 +9,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
@@ -25,6 +26,7 @@ import javax.swing.JPanel;
 //import javax.swing.JTextArea;
 
 import client.ScelfieManager;
+import networking.PHPReader;
 
 public class EditPanel extends JPanel {
 	private static final long serialVersionUID = -5186980309061986267L;
@@ -43,6 +45,8 @@ public class EditPanel extends JPanel {
 	private JLabel kissFilter;
 	private JLabel starFilter;
 	private JLabel picLabel;
+	
+	private Random rand;
 	
 	//private JScrollPane filterScroll;
 	
@@ -93,6 +97,8 @@ public class EditPanel extends JPanel {
 		//SM HERE
 		scelfieManager = new ScelfieManager();
 		scelfieManager.loadTestImage(navigator.getImageFile());
+		
+		rand = new Random();
 	}
 
 	private void addActionListeners()
@@ -145,6 +151,7 @@ public class EditPanel extends JPanel {
 				scelfieManager.addStickerToImg("testfiles/heart.png", "Eye");
 				ImageIcon img = new ImageIcon(scelfieManager.getEditedImg());
 				picLabel.setIcon(img);
+				navigator.setEdited(scelfieManager.getEditedImg());
 			}
 		});
 		starFilter.addMouseListener(new MouseAdapter(){
@@ -159,6 +166,7 @@ public class EditPanel extends JPanel {
 				scelfieManager.addStickerToImg("testfiles/star.png", "Eye");
 				ImageIcon img = new ImageIcon(scelfieManager.getEditedImg());
 				picLabel.setIcon(img);
+				navigator.setEdited(scelfieManager.getEditedImg());
 			}
 		});
 		flowerFilter.addMouseListener(new MouseAdapter(){
@@ -173,6 +181,7 @@ public class EditPanel extends JPanel {
 				scelfieManager.addStickerToImg("testfiles/flower.png", "Eye");
 				ImageIcon img = new ImageIcon(scelfieManager.getEditedImg());
 				picLabel.setIcon(img);
+				navigator.setEdited(scelfieManager.getEditedImg());
 			}
 		});
 		kissFilter.addMouseListener(new MouseAdapter(){
@@ -187,6 +196,7 @@ public class EditPanel extends JPanel {
 				scelfieManager.addStickerToImg("testfiles/kiss.png", "Mouth");
 				ImageIcon img = new ImageIcon(scelfieManager.getEditedImg());
 				picLabel.setIcon(img);
+				navigator.setEdited(scelfieManager.getEditedImg());
 			}
 		});
 	}
@@ -294,7 +304,16 @@ public class EditPanel extends JPanel {
 	
 	private void saveToMy()
 	{
-		saved = true;
+		int extra = rand.nextInt(900) + 100;
+		String fname = navigator.getUsername() + extra;
+		Boolean success = PHPReader.uploadImage(navigator.getEdited(), fname, navigator.getUsername());
+		
+		if(success)
+		{
+			saved = true;
+		} else {
+			JOptionPane.showMessageDialog(this, "Error saving to My SCelfies");
+		}
 	}
 	
 	private void done()
@@ -314,7 +333,16 @@ public class EditPanel extends JPanel {
 	
 	private void uploadToCommunity()
 	{
+		int extra = rand.nextInt(900) + 100;
+		String fname = navigator.getUsername() + extra;
+		Boolean success = PHPReader.uploadImage(navigator.getEdited(), fname, "communityalbum");
 		
+		if(success)
+		{
+			saved = true;
+		} else {
+			JOptionPane.showMessageDialog(this, "Error saving to Community Album");
+		}
 	}
 	
 	private ImageIcon createImageIcon()

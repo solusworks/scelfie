@@ -32,9 +32,7 @@ public class LogInPanel extends JPanel {
 	private JButton logInButton;
 	private JButton signUpButton;
 	private JButton guestButton;
-	
-	private PHPReader phpReader;
-	
+		
 	{
 		initializeVariables();
 		addActionListeners();
@@ -55,8 +53,6 @@ public class LogInPanel extends JPanel {
 		logInButton = new JButton("Log in");
 		signUpButton = new JButton("Sign up");
 		guestButton = new JButton("Continue as a Guest");
-		
-		phpReader = new PHPReader();
 	}
 
 	private void createGUI() {
@@ -153,7 +149,7 @@ public class LogInPanel extends JPanel {
 		}
 		else
 		{
-			String phpAnswer = phpReader.signup(userText, passText);
+			String phpAnswer = PHPReader.signup(userText, passText);
 			if(!phpAnswer.startsWith("t"))
 			{
 				JOptionPane.showMessageDialog(this, "Username or password invalid", "Error", JOptionPane.WARNING_MESSAGE);
@@ -183,7 +179,7 @@ public class LogInPanel extends JPanel {
 		}
 		else
 		{
-			String phpAnswer = phpReader.login(userText, passText);
+			String phpAnswer = PHPReader.login(userText, passText);
 			if(!phpAnswer.startsWith("t"))
 			{
 				JOptionPane.showMessageDialog(this, "Username or password invalid", "Error", JOptionPane.WARNING_MESSAGE);

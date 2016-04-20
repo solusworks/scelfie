@@ -69,8 +69,8 @@ public class CommunityAlbumPanel extends JPanel {
 		Image img = orig.getImage();
 		BufferedImage bi = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
 		Graphics g = bi.createGraphics();
-		g.drawImage(img, 0, 0, 200, 200, null, null);	
-		ImageIcon finish = new ImageIcon(bi.getSubimage(0, 0, 200, 200));
+		g.drawImage(img, 0, 0, 150, 150, null, null);	
+		ImageIcon finish = new ImageIcon(bi.getSubimage(0, 0, 150, 150));
 		label = new JLabel(finish);
 		return label;
 	}

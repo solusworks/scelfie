@@ -14,11 +14,12 @@ public class ScelfieFrame extends JFrame implements Navigator {
 	
 	private String imageFpath;
 	private BufferedImage image;
+	private BufferedImage edited;
 	
 	{
 		setTitle("SCelfie");
-		setSize(640,480);
-		setMinimumSize(new Dimension(640,480));
+		setSize(640,580);
+		setMinimumSize(new Dimension(640,580));
 		//setJMenuBar(new OfficeMenuBar());
 		getContentPane().add(new LogInPanel(this));
 		setLocationRelativeTo(null);
@@ -114,6 +115,21 @@ public class ScelfieFrame extends JFrame implements Navigator {
 	@Override
 	public void setImage(BufferedImage image) {
 		this.image = image;
+	}
+	
+	public BufferedImage getEdited()
+	{
+		if(edited != null)
+		{
+			return edited;
+		} else {
+			return null;
+		}
+	}
+	
+	public void setEdited(BufferedImage image)
+	{
+		
 	}
 
 }
