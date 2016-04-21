@@ -41,10 +41,10 @@ public class ScelfieManager {
 		try {
 
 			rawImg = ImageIO.read(new File(filePath));
-
+			rawImg = scaleBufferedImage(rawImg, 512, 512);
 			// Copy rawImage into editedImg for later edits
 			editedImg = cloneBufferedImageFrom(rawImg);
-
+			
 			// Process the input image once it's loaded
 			processedRawImg();
 			
@@ -91,6 +91,14 @@ public class ScelfieManager {
 //			System.out.println("eyes has been deteced at: " + eyesRect[i].x + " " + eyesRect[i].y + ", with size: "
 //					+ eyesRect[i].height + ", " + eyesRect[i].width);
 
+			if(feature.equals("Mouth")) {
+				
+				if (targetRect[i].y < editedImg.getHeight()/ 2) {
+				
+					continue;
+				}
+			}
+			
 			for (int m = targetRect[i].y; m < targetRect[i].y + targetRect[i].height; m++) {
 
 				for (int n = targetRect[i].x; n < targetRect[i].x + targetRect[i].width; n++) {

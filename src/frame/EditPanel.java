@@ -148,7 +148,6 @@ public class EditPanel extends JPanel {
 				{
 					filtered = true;
 				}
-				JOptionPane.showMessageDialog(null, "HEART", "Error", JOptionPane.WARNING_MESSAGE);
 				scelfieManager.addStickerToImg("testfiles/heart.png", "Eye");
 				ImageIcon img = new ImageIcon(scelfieManager.getEditedImg());
 				picLabel.setIcon(img);
@@ -161,7 +160,6 @@ public class EditPanel extends JPanel {
 				{
 					filtered = true;
 				}
-				JOptionPane.showMessageDialog(null, "STAR", "Error", JOptionPane.WARNING_MESSAGE);
 				//scelfieManager.addStickerToImg("testfiles/star.png",FacialFeature.Eye);
 				//picLabel.setIcon(scelfieManager.getEditedImg());
 				scelfieManager.addStickerToImg("testfiles/star.png", "Eye");
@@ -176,7 +174,6 @@ public class EditPanel extends JPanel {
 				{
 					filtered = true;
 				}
-				JOptionPane.showMessageDialog(null, "FLOWER", "Error", JOptionPane.WARNING_MESSAGE);
 				//scelfieManager.addStickerToImg("testfiles/flower.png",FacialFeature.Eye);
 				//picLabel.setIcon(scelfieManager.getEditedImg());
 				scelfieManager.addStickerToImg("testfiles/flower.png", "Eye");
@@ -191,9 +188,6 @@ public class EditPanel extends JPanel {
 				{
 					filtered = true;
 				}
-				JOptionPane.showMessageDialog(null, "KISS", "Error", JOptionPane.WARNING_MESSAGE);			
-				//scelfieManager.addStickerToImg("testfiles/kiss.png",FacialFeature.Mouth);
-				//picLabel.setIcon(scelfieManager.getEditedImg());
 				scelfieManager.addStickerToImg("testfiles/kiss.png", "Mouth");
 				ImageIcon img = new ImageIcon(scelfieManager.getEditedImg());
 				picLabel.setIcon(img);
@@ -300,7 +294,13 @@ public class EditPanel extends JPanel {
 				if (!fileName.endsWith(".png")) {
 	                f = new File(fileName + ".png");
 	            }
-				ImageIO.write(navigator.getEdited(), "png", f);
+				if(navigator.getEdited() == null)
+				{
+					JOptionPane.showMessageDialog(this, "Error saving scelfie. Please add filter.");
+				} else {
+					ImageIO.write(navigator.getEdited(), "png", f);
+				}
+				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

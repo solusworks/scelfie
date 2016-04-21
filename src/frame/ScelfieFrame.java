@@ -20,8 +20,6 @@ public class ScelfieFrame extends JFrame implements Navigator {
 		setTitle("SCelfie");
 		setSize(640,580);
 		setMinimumSize(new Dimension(640,580));
-		setMaximumSize(new Dimension(640,580));
-		//setJMenuBar(new OfficeMenuBar());
 		getContentPane().add(new LogInPanel(this));
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -131,7 +129,7 @@ public class ScelfieFrame extends JFrame implements Navigator {
 	
 	public void setEdited(BufferedImage image)
 	{
-		
+		edited = image;
 	}
 
 }
