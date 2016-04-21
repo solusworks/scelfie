@@ -1,15 +1,9 @@
 package networking;
 
-import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
-import java.awt.image.WritableRaster;
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,7 +28,7 @@ public class PHPReader {
 	private static final String LOGIN_HASH = "http://www.non-solus.com/scelfie/login_hash.php";
 	private static final String UPLOAD = "http://www.non-solus.com/scelfie/upload.php";
 	private static final String DOWNLOAD = "http://www.non-solus.com/scelfie/download.php";
-	private static final String DOWNLOADV2 = "http://www.non-solus.com/scelfie/download_old.php";
+	//HEREprivate static final String DOWNLOADV2 = "http://www.non-solus.com/scelfie/download_old.php";
 	private static final String IMAGE_LIST = "http://www.non-solus.com/scelfie/imagelist.php";
 	
 	
@@ -221,7 +215,7 @@ public class PHPReader {
 	// which folder the image will be uploaded to. Function returns true if it worked and false if otherwise.
 	public static boolean uploadImage(BufferedImage image, String imageName, String username) {
 		boolean result = false;
-		String fullPath = username + "/" + imageName;
+		//HERE String fullPath = username + "/" + imageName;
 		
 		//CrLf: carriage return
 		final String CrLf = "\r\n";
@@ -333,7 +327,7 @@ public class PHPReader {
 	public static boolean uploadImage(String imagePath, String username) {
 			boolean result = false;
 			String basename = getBasename(imagePath);
-			String fullPath = username + "/" + basename;
+			//HEREString fullPath = username + "/" + basename;
 			System.out.println(basename);
 			
 			//CrLf: carriage return
@@ -416,13 +410,15 @@ public class PHPReader {
 	                }
 	            } while (len > 0);
 	
+	            //HERE
+	            imgIs.close();
 	            //System.out.println("DONE");
 	        } catch (Exception e) {
 	        	return result;
 	        	//System.out.println("File not found");
 	            //e.printStackTrace();
 	        } finally {
-	            //System.out.println("Close connection");
+	        	//System.out.println("Close connection");
 	            try {
 	                os.close();
 	            } catch (Exception e) {
@@ -465,7 +461,7 @@ public class PHPReader {
 
 			InputStream is = connection.getInputStream();
 			BufferedReader rd = new BufferedReader(new InputStreamReader(is));
-			StringBuilder response = new StringBuilder();
+			//HEREStringBuilder response = new StringBuilder();
 			
 			String line = rd.readLine();
 			while (line != null) {
