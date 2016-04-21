@@ -1,6 +1,7 @@
 package frame;
 
 import java.awt.BorderLayout;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -10,7 +11,6 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -56,7 +56,52 @@ public class LogInPanel extends JPanel {
 	}
 
 	private void createGUI() {
-		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+		
+		//setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+		add(Box.createGlue());
+		
+		JPanel logSignButs = new JPanel();
+		logSignButs.add(logInButton, BorderLayout.WEST);
+		logSignButs.add(signUpButton, BorderLayout.CENTER);
+		
+		JPanel usernamePanel = new JPanel();
+		usernamePanel.add(usernameLabel, BorderLayout.WEST);
+		usernamePanel.add(usernameField, BorderLayout.EAST);
+		
+		JPanel passwordPanel = new JPanel();
+		passwordPanel.add(passwordLabel, BorderLayout.WEST);
+		passwordPanel.add(passwordField, BorderLayout.EAST);
+		
+		//JPanel vertStuffPanel = new JPanel();
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		add(Box.createVerticalGlue());
+		add(Box.createVerticalGlue());
+		add(Box.createVerticalGlue());
+		add(Box.createVerticalGlue());
+		add(Box.createVerticalGlue());
+		add(usernamePanel);
+		add(passwordPanel);
+		add(logSignButs);
+		JPanel temp = new JPanel();
+		temp.add(guestButton);
+		add(temp);
+		add(Box.createVerticalGlue());
+		add(Box.createVerticalGlue());
+		add(Box.createVerticalGlue());
+		add(Box.createVerticalGlue());
+		add(Box.createVerticalGlue());
+
+		
+		setOpaque(false);
+		
+		//add(vertStuffPanel);
+		
+		add(Box.createGlue());
+		
+		revalidate();
+		repaint();
+		
+		/*setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		add(Box.createGlue());
 		
 		JPanel logSignButs = new JPanel();
@@ -91,14 +136,19 @@ public class LogInPanel extends JPanel {
 		vertStuffPanel.add(Box.createVerticalGlue());
 
 		
+		vertStuffPanel.setOpaque(false);
+		
 		add(vertStuffPanel);
 		
 		add(Box.createGlue());
 		
-		BufferedImage logoImage;
+		revalidate();
+		repaint();*/
+		
+		//BufferedImage logoImage;
 		
 	
-		try {
+		/*try {
 			logoImage = ImageIO.read(new File("SCelfieLogo.png"));
 			JLabel logoLabel = new JLabel(new ImageIcon(logoImage));
 			add(logoLabel);
@@ -106,7 +156,7 @@ public class LogInPanel extends JPanel {
 		
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}*/
 		
 	}
 
@@ -146,6 +196,22 @@ public class LogInPanel extends JPanel {
 		else if(userText.equals("communityalbum"))
 		{
 			JOptionPane.showMessageDialog(this, "Please choose a different username", "Error", JOptionPane.WARNING_MESSAGE);
+		}
+		else if(userText.length() > 40)
+		{
+			JOptionPane.showMessageDialog(this, "Username must be shorter than 41 characters", "Error", JOptionPane.WARNING_MESSAGE);
+		}
+		else if(userText.length() < 6)
+		{
+			JOptionPane.showMessageDialog(this, "Username must be longer than five characters", "Error", JOptionPane.WARNING_MESSAGE);
+		}
+		else if(passText.length() > 50)
+		{
+			JOptionPane.showMessageDialog(this, "Password must be shorter than 51 characters", "Error", JOptionPane.WARNING_MESSAGE);
+		}
+		else if(passText.length() < 6)
+		{
+			JOptionPane.showMessageDialog(this, "Password must be longer than five characters", "Error", JOptionPane.WARNING_MESSAGE);
 		}
 		else
 		{
@@ -209,5 +275,23 @@ public class LogInPanel extends JPanel {
 			} 
 		}
 		return true;
+	}
+	
+	protected void paintComponent(Graphics g)
+	{
+		super.paintComponent(g);
+		
+		//g.setColor(Color.YELLOW);
+		
+		BufferedImage logoImage;
+		try {
+			logoImage = ImageIO.read(new File("SCelfieLogo.png"));
+			g.drawImage(logoImage, 0, 0, getWidth(),getHeight(), null);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 	}
 }

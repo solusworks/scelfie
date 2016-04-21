@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.Random;
 
@@ -290,13 +291,18 @@ public class EditPanel extends JPanel {
 		//BufferedWriter output = null;
 		
 		if(returnVal == JFileChooser.APPROVE_OPTION)
-		{
-			//File file = fileChooser.getSelectedFile();
-			//String path = file.getAbsolutePath();
+		{		
+			File f = fileChooser.getSelectedFile();
+			
+			String fileName;
 			try {
-				ImageIO.write(navigator.getImage(), "png", fileChooser.getSelectedFile());
-				saved = true;
+				fileName = f.getCanonicalPath();
+				if (!fileName.endsWith(".png")) {
+	                f = new File(fileName + ".png");
+	            }
+				ImageIO.write(navigator.getEdited(), "png", f);
 			} catch (IOException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
