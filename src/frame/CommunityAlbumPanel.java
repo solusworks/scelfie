@@ -21,8 +21,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import networking.ImageList;
 import networking.ImageURL;
 import networking.PHPReader;
+import networking.MakeImage;
 
 public class CommunityAlbumPanel extends JPanel {
 	private static final long serialVersionUID = -15406281220192938L;
@@ -61,7 +63,11 @@ public class CommunityAlbumPanel extends JPanel {
 		overallPanel.setLayout(new BoxLayout(overallPanel, BoxLayout.Y_AXIS));
 		
 		List<JPanel> picPanels = new Vector<JPanel>();		
-		List<ImageURL> urls = PHPReader.getImageList("communityalbum");
+		//List<ImageURL> urls = PHPReader.getImageList("communityalbum");
+		
+		ImageList imageList = new ImageList("communityalbum");
+		List<ImageURL> urls = imageList.getList();
+		
 		
 		JPanel fourPanel;
 		
@@ -121,7 +127,10 @@ public class CommunityAlbumPanel extends JPanel {
 		
 		String username = url.getUsername();
 		String fname = url.getImageName();
-		URL img = PHPReader.downloadImage(username, fname);
+		//URL img = PHPReader.downloadImage(username, fname);
+		URL img = url.getImageURL();
+		
+		/*
 		try {
 			BufferedImage realImg = ImageIO.read(img);
 			Graphics g = realImg.createGraphics();
@@ -133,6 +142,12 @@ public class CommunityAlbumPanel extends JPanel {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		*/
+		
+		MakeImage makeImage = new MakeImage(url.getImageURL());
+		picLabel = makeImage.getImage();
+		if (picLabel != null) return picLabel;
+		
 		
 		return null;
 	}

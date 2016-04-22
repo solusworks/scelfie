@@ -28,6 +28,7 @@ import javax.swing.JPanel;
 
 import client.ScelfieManager;
 import networking.PHPReader;
+import networking.UploadImage;
 
 public class EditPanel extends JPanel {
 	private static final long serialVersionUID = -5186980309061986267L;
@@ -312,7 +313,13 @@ public class EditPanel extends JPanel {
 	{
 		int extra = rand.nextInt(900) + 100;
 		String fname = navigator.getUsername() + extra;
-		Boolean success = PHPReader.uploadImage(navigator.getEdited(), fname, navigator.getUsername());
+		//Boolean success = PHPReader.uploadImage(navigator.getEdited(), fname, navigator.getUsername());
+		
+		
+		UploadImage uploadImage = new UploadImage(navigator.getEdited(), fname, navigator.getUsername());
+		Boolean success = uploadImage.getValue();
+		
+		
 		
 		if(success)
 		{
@@ -341,7 +348,12 @@ public class EditPanel extends JPanel {
 	{
 		int extra = rand.nextInt(900) + 100;
 		String fname = navigator.getUsername() + extra;
-		Boolean success = PHPReader.uploadImage(navigator.getEdited(), fname, "communityalbum");
+		//Boolean success = PHPReader.uploadImage(navigator.getEdited(), fname, "communityalbum");
+		
+		
+		UploadImage uploadImage = new UploadImage(navigator.getEdited(), fname, "communityalbum");
+		Boolean success = uploadImage.getValue();
+		
 		
 		if(success)
 		{

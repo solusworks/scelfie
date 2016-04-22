@@ -20,8 +20,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import networking.ImageList;
 import networking.ImageURL;
 import networking.PHPReader;
+import networking.MakeImage;
 
 public class MyScelfiesPanel extends JPanel {
 	private static final long serialVersionUID = -5936110089691226347L;
@@ -63,7 +65,12 @@ public class MyScelfiesPanel extends JPanel {
 		overallPanel.setLayout(new BoxLayout(overallPanel, BoxLayout.Y_AXIS));
 		
 		List<JPanel> picPanels = new Vector<JPanel>();		
-		List<ImageURL> urls = PHPReader.getImageList(navigator.getUsername());
+		//List<ImageURL> urls = PHPReader.getImageList(navigator.getUsername());
+		
+		
+		ImageList imageList = new ImageList(navigator.getUsername());
+		List<ImageURL> urls = imageList.getList();
+		
 		
 		JPanel fourPanel;
 		
@@ -110,7 +117,10 @@ public class MyScelfiesPanel extends JPanel {
 		
 		String username = url.getUsername();
 		String fname = url.getImageName();
-		URL img = PHPReader.downloadImage(username, fname);
+		//URL img = PHPReader.downloadImage(username, fname);
+		URL img = url.getImageURL();
+		
+		/*
 		try {
 			BufferedImage realImg = ImageIO.read(img);
 			Graphics g = realImg.createGraphics();
@@ -122,6 +132,12 @@ public class MyScelfiesPanel extends JPanel {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		*/
+		
+		MakeImage makeImage = new MakeImage(url.getImageURL());
+		picLabel = makeImage.getImage();
+		if (picLabel != null) return picLabel;
+		
 		
 		return null;
 	}

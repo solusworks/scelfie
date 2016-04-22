@@ -4,7 +4,7 @@ import java.util.List;
 
 public class ImageList implements Runnable {
 	private String username;
-	private List<ImageURL> list;
+	private volatile List<ImageURL> list;
 	
 	public ImageList(String username) {
 		this.username = username;
