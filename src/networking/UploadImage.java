@@ -12,7 +12,13 @@ public class UploadImage implements Runnable {
 		this.image = image;
 		this.imageName = imageName;
 		this.username = username;
-		new Thread(this).start();
+		Thread thread = new Thread(this);
+		thread.start();
+		try {
+			thread.join();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
