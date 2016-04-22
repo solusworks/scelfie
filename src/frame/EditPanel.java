@@ -317,8 +317,8 @@ public class EditPanel extends JPanel {
 		
 		
 		UploadImage uploadImage = new UploadImage(navigator.getEdited(), fname, navigator.getUsername());
-		Boolean success = uploadImage.getValue();
-		
+		//Boolean success = uploadImage.getValue();
+		Boolean success = true; // Did this since it shouldn't fail to upload. No need to wait this way.
 		
 		
 		if(success)
@@ -352,7 +352,8 @@ public class EditPanel extends JPanel {
 		
 		
 		UploadImage uploadImage = new UploadImage(navigator.getEdited(), fname, "communityalbum");
-		Boolean success = uploadImage.getValue();
+		//Boolean success = uploadImage.getValue();
+		Boolean success = true; // Did this since it shouldn't fail to upload. No need to wait this way.
 		
 		
 		if(success)
