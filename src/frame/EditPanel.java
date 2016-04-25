@@ -27,7 +27,6 @@ import javax.swing.JPanel;
 //import javax.swing.JTextArea;
 
 import client.ScelfieManager;
-import networking.PHPReader;
 import networking.UploadImage;
 
 public class EditPanel extends JPanel {
@@ -40,7 +39,7 @@ public class EditPanel extends JPanel {
 	private JButton saveButton;
 	private JButton saveToMyScelfiesButton;
 	private JButton uploadToCommunityButton;
-	private JButton doneButton;
+	//private JButton doneButton;
 	private JPanel filterPanel;
 	private JLabel heartFilter;
 	private JLabel flowerFilter;
@@ -80,7 +79,7 @@ public class EditPanel extends JPanel {
 		saveToMyScelfiesButton = new JButton("Save to My SCelfies");
 		uploadToCommunityButton = new JButton("Share with Community");
 		//filterScroll = new JScrollPane(new JTextArea());
-		doneButton = new JButton("Done");
+		//doneButton = new JButton("Done");
 		
 		fileChooser = new JFileChooser();
 		filterPanel = new JPanel();
@@ -137,11 +136,11 @@ public class EditPanel extends JPanel {
 			}
 		});
 		
-		doneButton.addActionListener(new ActionListener() {
+		/*doneButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				done();
 			}
-		});
+		});*/
 		
 		heartFilter.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
@@ -238,7 +237,7 @@ public class EditPanel extends JPanel {
 		horizontal.addGroup(backFilter);
 		
 		ParallelGroup imgBut = layout.createParallelGroup();
-		imgBut.addComponent(doneButton);
+		//imgBut.addComponent(doneButton);
 		imgBut.addComponent(imagePanel);
 		
 		JPanel saveButtons = new JPanel();
@@ -258,7 +257,7 @@ public class EditPanel extends JPanel {
 		
 		ParallelGroup backDone = layout.createParallelGroup();
 		backDone.addComponent(backButton);
-		backDone.addComponent(doneButton, GroupLayout.Alignment.TRAILING);
+		//backDone.addComponent(doneButton, GroupLayout.Alignment.TRAILING);
 		vertical.addGroup(backDone);
 		
 		ParallelGroup filterPic = layout.createParallelGroup();
@@ -329,7 +328,7 @@ public class EditPanel extends JPanel {
 		}
 	}
 	
-	private void done()
+	/*private void done()
 	{
 		if(!saved)
 		{
@@ -342,7 +341,7 @@ public class EditPanel extends JPanel {
 				goBack();
 			}
 		}
-	}
+	}*/
 	
 	private void uploadToCommunity()
 	{

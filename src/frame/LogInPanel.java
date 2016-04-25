@@ -63,14 +63,19 @@ public class LogInPanel extends JPanel {
 		JPanel logSignButs = new JPanel();
 		logSignButs.add(logInButton, BorderLayout.WEST);
 		logSignButs.add(signUpButton, BorderLayout.CENTER);
+		//ScelfieButton but = new ScelfieButton("Test");
+		//logSignButs.add(but, BorderLayout.EAST);
+		logSignButs.setOpaque(false);
 		
 		JPanel usernamePanel = new JPanel();
 		usernamePanel.add(usernameLabel, BorderLayout.WEST);
 		usernamePanel.add(usernameField, BorderLayout.EAST);
+		usernamePanel.setOpaque(false);
 		
 		JPanel passwordPanel = new JPanel();
 		passwordPanel.add(passwordLabel, BorderLayout.WEST);
 		passwordPanel.add(passwordField, BorderLayout.EAST);
+		passwordPanel.setOpaque(false);
 		
 		//JPanel vertStuffPanel = new JPanel();
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -83,6 +88,7 @@ public class LogInPanel extends JPanel {
 		add(passwordPanel);
 		add(logSignButs);
 		JPanel temp = new JPanel();
+		temp.setOpaque(false);
 		temp.add(guestButton);
 		add(temp);
 		add(Box.createVerticalGlue());
@@ -93,70 +99,11 @@ public class LogInPanel extends JPanel {
 
 		
 		setOpaque(false);
-		
-		//add(vertStuffPanel);
-		
+				
 		add(Box.createGlue());
 		
 		revalidate();
 		repaint();
-		
-		/*setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-		add(Box.createGlue());
-		
-		JPanel logSignButs = new JPanel();
-		logSignButs.add(logInButton, BorderLayout.WEST);
-		logSignButs.add(signUpButton, BorderLayout.CENTER);
-		
-		JPanel usernamePanel = new JPanel();
-		usernamePanel.add(usernameLabel, BorderLayout.WEST);
-		usernamePanel.add(usernameField, BorderLayout.EAST);
-		
-		JPanel passwordPanel = new JPanel();
-		passwordPanel.add(passwordLabel, BorderLayout.WEST);
-		passwordPanel.add(passwordField, BorderLayout.EAST);
-		
-		JPanel vertStuffPanel = new JPanel();
-		vertStuffPanel.setLayout(new BoxLayout(vertStuffPanel, BoxLayout.Y_AXIS));
-		vertStuffPanel.add(Box.createVerticalGlue());
-		vertStuffPanel.add(Box.createVerticalGlue());
-		vertStuffPanel.add(Box.createVerticalGlue());
-		vertStuffPanel.add(Box.createVerticalGlue());
-		vertStuffPanel.add(Box.createVerticalGlue());
-		vertStuffPanel.add(usernamePanel);
-		vertStuffPanel.add(passwordPanel);
-		vertStuffPanel.add(logSignButs);
-		JPanel temp = new JPanel();
-		temp.add(guestButton);
-		vertStuffPanel.add(temp);
-		vertStuffPanel.add(Box.createVerticalGlue());
-		vertStuffPanel.add(Box.createVerticalGlue());
-		vertStuffPanel.add(Box.createVerticalGlue());
-		vertStuffPanel.add(Box.createVerticalGlue());
-		vertStuffPanel.add(Box.createVerticalGlue());
-
-		
-		vertStuffPanel.setOpaque(false);
-		
-		add(vertStuffPanel);
-		
-		add(Box.createGlue());
-		
-		revalidate();
-		repaint();*/
-		
-		//BufferedImage logoImage;
-		
-	
-		/*try {
-			logoImage = ImageIO.read(new File("SCelfieLogo.png"));
-			JLabel logoLabel = new JLabel(new ImageIcon(logoImage));
-			add(logoLabel);
-			
-		
-		} catch (IOException e) {
-			e.printStackTrace();
-		}*/
 		
 	}
 
@@ -185,6 +132,10 @@ public class LogInPanel extends JPanel {
 		String userText = usernameField.getText();
 		String passText = new String(passwordField.getPassword());
 		
+		if(userText.length() > 40)
+		{
+			JOptionPane.showMessageDialog(this, "Username must be shorter than 41 characters", "Error", JOptionPane.WARNING_MESSAGE);
+		}
 		if(userText.length() == 0 || passText.length() == 0)
 		{
 			JOptionPane.showMessageDialog(this, "Username or password field blank", "Error", JOptionPane.WARNING_MESSAGE);
@@ -222,10 +173,18 @@ public class LogInPanel extends JPanel {
 			}
 			else
 			{
-				JOptionPane.showMessageDialog(this, "Sign up success!", "!", JOptionPane.PLAIN_MESSAGE);
-				navigator.setRegistered(true);
-				navigator.setUsername(userText);
-				attemptLogIn();
+				String phpAnswer2 = PHPReader.login(userText, passText);
+				if(!phpAnswer2.startsWith("t"))
+				{
+					JOptionPane.showMessageDialog(this, "Username or password invalid", "Error", JOptionPane.WARNING_MESSAGE);
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(this, "Account created.\nWelcome, " + userText + "!", "!", JOptionPane.PLAIN_MESSAGE);
+					navigator.setRegistered(true);
+					navigator.setUsername(userText);
+					navigator.toInstructions();
+				}
 			}
 		}
 	}
@@ -264,7 +223,7 @@ public class LogInPanel extends JPanel {
 	private void guestSession()
 	{
 		navigator.setRegistered(false);
-		navigator.toHome();
+		navigator.toInstructions();
 	}
 	
 	private Boolean isASCII(String str)

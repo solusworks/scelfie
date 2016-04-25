@@ -18,4 +18,5 @@ public interface Navigator {
 	public void setImage(BufferedImage image);
 	public BufferedImage getEdited();
 	public void setEdited(BufferedImage image);
+	public void toInstructions();
 }

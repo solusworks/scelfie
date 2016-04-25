@@ -26,7 +26,6 @@ public class ScelfieFrame extends JFrame implements Navigator {
 		
 		registeredUserSession = false;
 		username = "";
-		
 	}
 	
 	public static void main(String[] args)
@@ -132,4 +131,10 @@ public class ScelfieFrame extends JFrame implements Navigator {
 		edited = image;
 	}
 
+	public void toInstructions() {
+		getContentPane().removeAll();
+		getContentPane().add(new InstructionsPanel(this));
+		revalidate();
+		repaint();
+	} 
 }
